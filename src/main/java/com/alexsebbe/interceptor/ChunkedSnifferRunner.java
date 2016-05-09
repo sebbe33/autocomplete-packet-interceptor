@@ -40,7 +40,7 @@ public class ChunkedSnifferRunner implements Runnable, Sniffer.OnDataPackageRece
 	public void onDataPackageReceived(int length, String source,
 			String destination, long timeStamp) {
 		if(!hasReceivedEmptyHTTPPacket && length != EMPTY_HTTP_PACKET_SIZE) {
-			//System.out.println("Received data. Length: " + length + ". From: " + source);
+			System.out.println("Received data. Length: " + length + ". From: " + source);
 			packetSizes.add(length);
 		} else if(!hasReceivedEmptyHTTPPacket && length == EMPTY_HTTP_PACKET_SIZE) {
 			synchronized(lock){

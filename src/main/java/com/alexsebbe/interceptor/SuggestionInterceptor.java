@@ -23,7 +23,7 @@ public class SuggestionInterceptor {
 	public static void main(String[] args) {
 		CharacterEntry rootEntry = null;
 		try {
-			rootEntry = JSONSerializer.deSerializeCharacterEntry("mappings/amazon_uk_3_chars.json");
+			rootEntry = JSONSerializer.deSerializeCharacterEntry("mappings/amazon_uk_4_chars.json");
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -92,11 +92,13 @@ public class SuggestionInterceptor {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				String searchString = "a";
+				String searchString = "g";
 				if(i == 1) {
-					searchString = "as";
+					searchString = "gs";
 				} else if (i == 2){
-					searchString = "asz";
+					searchString = "gsz";
+				} else if (i == 3){
+					searchString = "gszi";
 				}
 				String response = emulator.doSearch(searchString, webSiteProperties);
 				System.out.println(response);
@@ -120,7 +122,7 @@ public class SuggestionInterceptor {
 			printPossibleSolutions(findPossibleSolutions(lengths));
 			
 			i++;
-			if(i == 3) {
+			if(i == 4) {
 				break;
 			}
 		}
