@@ -74,6 +74,8 @@ public class Sniffer {
 							l.onDataPackageReceived(tcpPayload.getPayload().length(), 
 									ipPacket.getHeader().getSrcAddr().toString(), 
 									ipPacket.getHeader().getDstAddr().toString(),
+									tcpPacket.getHeader().getSrcPort().valueAsInt(),
+									tcpPacket.getHeader().getDstPort().valueAsInt(),
 									handle.getTimestamp().getTime());
 						}
 					}
@@ -105,8 +107,12 @@ public class Sniffer {
 		onDataRecievedListeners.add(listener);
 	}
 	
+	public void removeListener(OnDataPackageReceivedListener listener) {
+		onDataRecievedListeners.remove(listener);
+	}
+	
 	public interface OnDataPackageReceivedListener {
-		void onDataPackageReceived(int length, String source, String destination, long timeStamp);
+		void onDataPackageReceived(int length, String IPSource, String IPDestination, int sourcePort, int destinationPort, long timeStamp);
 	}
 	
 	/*System.out.println("ps_recv: " + ps.getNumPacketsReceived());

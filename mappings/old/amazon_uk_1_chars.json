@@ -1,0 +1,244 @@
+{
+  "@id" : 1,
+  "parent" : null,
+  "lengths" : null,
+  "character" : null,
+  "children" : [ {
+    "@id" : 2,
+    "parent" : 1,
+    "lengths" : [ 597 ],
+    "character" : "a",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "a"
+  }, {
+    "@id" : 3,
+    "parent" : 1,
+    "lengths" : [ 501 ],
+    "character" : "b",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "b"
+  }, {
+    "@id" : 4,
+    "parent" : 1,
+    "lengths" : [ 565 ],
+    "character" : "c",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "c"
+  }, {
+    "@id" : 5,
+    "parent" : 1,
+    "lengths" : [ 549 ],
+    "character" : "d",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "d"
+  }, {
+    "@id" : 6,
+    "parent" : 1,
+    "lengths" : [ 533 ],
+    "character" : "e",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "e"
+  }, {
+    "@id" : 7,
+    "parent" : 1,
+    "lengths" : [ 549 ],
+    "character" : "f",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "f"
+  }, {
+    "@id" : 8,
+    "parent" : 1,
+    "lengths" : [ 533 ],
+    "character" : "g",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "g"
+  }, {
+    "@id" : 9,
+    "parent" : 1,
+    "lengths" : [ 517 ],
+    "character" : "h",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "h"
+  }, {
+    "@id" : 10,
+    "parent" : 1,
+    "lengths" : [ 517 ],
+    "character" : "i",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "i"
+  }, {
+    "@id" : 11,
+    "parent" : 1,
+    "lengths" : [ 517 ],
+    "character" : "j",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "j"
+  }, {
+    "@id" : 12,
+    "parent" : 1,
+    "lengths" : [ 549 ],
+    "character" : "k",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "k"
+  }, {
+    "@id" : 13,
+    "parent" : 1,
+    "lengths" : [ 533 ],
+    "character" : "l",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "l"
+  }, {
+    "@id" : 14,
+    "parent" : 1,
+    "lengths" : [ 565 ],
+    "character" : "m",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "m"
+  }, {
+    "@id" : 15,
+    "parent" : 1,
+    "lengths" : [ 533 ],
+    "character" : "n",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "n"
+  }, {
+    "@id" : 16,
+    "parent" : 1,
+    "lengths" : [ 597 ],
+    "character" : "o",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "o"
+  }, {
+    "@id" : 17,
+    "parent" : 1,
+    "lengths" : [ 501 ],
+    "character" : "p",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "p"
+  }, {
+    "@id" : 18,
+    "parent" : 1,
+    "lengths" : [ 501 ],
+    "character" : "q",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "q"
+  }, {
+    "@id" : 19,
+    "parent" : 1,
+    "lengths" : [ 517 ],
+    "character" : "r",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "r"
+  }, {
+    "@id" : 20,
+    "parent" : 1,
+    "lengths" : [ 613 ],
+    "character" : "s",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "s"
+  }, {
+    "@id" : 21,
+    "parent" : 1,
+    "lengths" : [ 485 ],
+    "character" : "t",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "t"
+  }, {
+    "@id" : 22,
+    "parent" : 1,
+    "lengths" : [ 437 ],
+    "character" : "u",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "u"
+  }, {
+    "@id" : 23,
+    "parent" : 1,
+    "lengths" : [ 533 ],
+    "character" : "v",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "v"
+  }, {
+    "@id" : 24,
+    "parent" : 1,
+    "lengths" : [ 597 ],
+    "character" : "w",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "w"
+  }, {
+    "@id" : 25,
+    "parent" : 1,
+    "lengths" : [ 549 ],
+    "character" : "x",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "x"
+  }, {
+    "@id" : 26,
+    "parent" : 1,
+    "lengths" : [ 565 ],
+    "character" : "y",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "y"
+  }, {
+    "@id" : 27,
+    "parent" : 1,
+    "lengths" : [ 533 ],
+    "character" : "z",
+    "children" : [ ],
+    "characterSequenceUpToNow" : "",
+    "numberOfParents" : 0,
+    "characeterSequenceUpToAndIncludingThis" : "z"
+  } ],
+  "characterSequenceUpToNow" : "",
+  "numberOfParents" : 0,
+  "characeterSequenceUpToAndIncludingThis" : ""
+}
