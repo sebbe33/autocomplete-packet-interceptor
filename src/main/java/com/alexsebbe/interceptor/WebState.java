@@ -40,7 +40,7 @@ public class WebState {
 	 * Returns the web-flow vector leading up to this state
 	 * @return web-flow vector
 	 */
-	public List<WebFlow> getWebFlows() {
+	public List<WebFlow> getWebFlowVector() {
 		return webFlowVector;
 	}
 

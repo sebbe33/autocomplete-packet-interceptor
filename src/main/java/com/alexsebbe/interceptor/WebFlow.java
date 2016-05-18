@@ -18,6 +18,14 @@ public class WebFlow {
 		this.length = length;
 	}
 	
+	public Direction getDirection() {
+		return direction;
+	}
+	
+	public int getLength() {
+		return length;
+	}
+	
 	@Override
 	public boolean equals(Object other) {
 		if(other == null) {

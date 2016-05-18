@@ -8,7 +8,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 public class Statistics {
-	
+	/*
 	public static void main(String[] args) {
 		CharacterEntry rootEntry = null;
 		try {
@@ -48,7 +48,7 @@ public class Statistics {
 		}
 		
 		return result;
-	}
+	}*/
 	
 	public static int getTotalAmountOfDistingishableInputs(CharacterEntry rootEntry) {
 		return getTotalAmountOfDistingishableInputsHelper(rootEntry, rootEntry);
@@ -79,7 +79,7 @@ public class Statistics {
 		return result;
 	}
 	
-	public static int getAmountOfPossibleInputsFromLengthsHelper(CharacterEntry currentEntry, List<List<Integer>> lengths, int currentDepth) {		
+	private static int getAmountOfPossibleInputsFromLengthsHelper(CharacterEntry currentEntry, List<List<Integer>> lengths, int currentDepth) {		
 		List<Integer> lengthsToMatch = lengths.get(currentDepth);
 		
 		if(!lengthsToMatch.equals(currentEntry.getLengths())) {
