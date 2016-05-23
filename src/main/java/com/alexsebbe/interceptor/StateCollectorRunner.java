@@ -9,8 +9,8 @@ import org.pcap4j.core.PcapNetworkInterface;
 import org.pcap4j.util.NifSelector;
 
 public class StateCollectorRunner {
-	private static final int NO_ACTIVITY_TIMEOUT = 180*1000;
-	private static final int ACTIVITY_POLL_INTERVAL = 95*1000;
+	private static final int NO_ACTIVITY_TIMEOUT = 30*1000;
+	private static final int ACTIVITY_POLL_INTERVAL = 3*1000;
 	public static void main(String[] args) {
 		PcapNetworkInterface nif;
 		try {
@@ -29,14 +29,15 @@ public class StateCollectorRunner {
 		Thread snifferThread = new Thread(snifferRunner);
 		snifferThread.start();
 		
-		long time = System.currentTimeMillis();
-		System.out.println("Beginning collecting suggestions... This might take a long time");
+		System.out.println("Initializing setup....");
 		
 		try {
 			int threadCount = 60;
-			int depth = 6;
+			int depth = 4;
 			WebFlowVectorFetcherExecutor executor = new WebFlowVectorFetcherExecutor(threadCount, WebRequestEmulatorFactoryImpl.INSTANCE, AmazonUKProperties.INSTANCE, snifferRunner);
 			StateCollector stateCollector = new StateCollector("abcdefghijklmnopqrstuvwxyz", depth, AmazonUKProperties.INSTANCE, threadCount, snifferRunner, executor);
+			System.out.println("Beginning to collect suggestions... This might take a long time");
+			long time = System.currentTimeMillis();
 			WebState rootState = stateCollector.collect();
 			
 			long lastTimestamp;
@@ -49,10 +50,10 @@ public class StateCollectorRunner {
 				lastTimestamp = executor.getLastActivity();
 			} while (lastTimestamp + NO_ACTIVITY_TIMEOUT > System.currentTimeMillis());
 			
-			System.out.println("No activity within 180 sec. Finishing...");
+			System.out.println("No activity within "+(NO_ACTIVITY_TIMEOUT/1000)+" sec. Finishing...");
 			System.out.println("Finished collection suggestions. "
-        			+ "Time elapsed" + (System.currentTimeMillis() - time)/1000.0 + " seconds "
-					+ "("+(System.currentTimeMillis() - time)/(1000.0*60)+" min)");
+        			+ "Time elapsed" + (lastTimestamp - time)/1000.0 + " seconds "
+					+ "("+(lastTimestamp - time)/(1000.0*60)+" min)");
 			JSONSerializer.serializeWebStates(rootState, "testing.json");
 			executor.destroy();
 			snifferRunner.destroy();

@@ -11,7 +11,7 @@ public class StatisticsRunner {
 	public static void main(String[] args) {
 		WebState rootState = null;
 		try {
-			rootState = JSONSerializer.deSerializeWebStates("mappings/amazon_uk_6_characters_60_threads.json");
+			rootState = JSONSerializer.deSerializeWebStates("mappings/amazon_uk_1_characters_60_threads.json");
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -26,7 +26,7 @@ public class StatisticsRunner {
 		
 		System.out.println("Starting calculations...");
 		int numValidInputs = StatisticsUtil.getAmountOfValidInput(rootState);
-		long numTotalPossible = StatisticsUtil.getTotalAmountOfPossibleCombinations("abcdefghijklmnopqrstuvwxyz",6);
+		long numTotalPossible = StatisticsUtil.getTotalAmountOfPossibleCombinations("abcdefghijklmnopqrstuvwxyz",1);
 		int numOfDistInputs = StatisticsUtil.getAmountOfDistinguishableInput(rootState);
 		double rate = StatisticsUtil.getAveragePredictionRate(rootState);
 		

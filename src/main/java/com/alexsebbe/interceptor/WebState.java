@@ -43,6 +43,7 @@ public class WebState {
 	public List<WebFlow> getWebFlowVector() {
 		return webFlowVector;
 	}
+	
 
 	/**
 	 * Returns the input leading up to this state
@@ -66,6 +67,14 @@ public class WebState {
 	 */
 	public List<WebState> getChildren() {
 		return children;
+	}
+	
+	/**
+	 * Adds a child to the web state. Thread safe
+	 * @param child
+	 */
+	public synchronized void addChild(WebState child) {
+		children.add(child);
 	}
 
 }

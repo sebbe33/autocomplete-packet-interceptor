@@ -63,7 +63,7 @@ public class StateCollector {
 		public void onNonEmptyResultResponse(WebFlowVectorFetcher source,
 				List<WebFlow> webFlowVector, String searchString) {
 			WebState currentWebState = new WebState(searchString, parentState, input, webFlowVector);
-			parentState.getChildren().add(currentWebState);
+			parentState.addChild(currentWebState);
 			
 			if(currentDepth + 1 < maxDepth) {
 				collectForChildren(currentWebState, currentDepth+1);
