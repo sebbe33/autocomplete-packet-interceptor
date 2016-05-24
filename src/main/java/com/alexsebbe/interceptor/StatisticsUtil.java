@@ -47,7 +47,12 @@ public class StatisticsUtil {
 		return result;
 	}
 	
-	
+	/**
+	 * Returns the density for a set of web states
+	 * @param webStates
+	 * @param direction
+	 * @return density
+	 */
 	public static double getDensity(List<WebState> webStates, Direction direction) {
 		List<Integer> allPackets = new ArrayList<Integer>();
 		for(WebState state : webStates) {
@@ -65,6 +70,12 @@ public class StatisticsUtil {
 		return allPackets.size()/(double)(max - min);
 	}
 	
+	/**
+	 * Returns the number of distinguishable input, i.e. input whose 
+	 * web-flow vector sequence is unique
+	 * @param rootState
+	 * @return # distinguishable input
+	 */
 	public static int getAmountOfDistinguishableInput(WebState rootState) {
 		int result = 0;
 		for(WebState child : rootState.getChildren()) {
@@ -89,6 +100,12 @@ public class StatisticsUtil {
 		return result;
 	}
 	
+	
+	/**
+	 * Returns the average prediction rate [0,1] for the profile
+	 * @param rootState - the root state of the profile
+	 * @return average prediction rate
+	 */
 	public static double getAveragePredictionRate(WebState rootState) {
 		double result = 0;
 		for(WebState child : rootState.getChildren()) {
@@ -109,6 +126,76 @@ public class StatisticsUtil {
 		}
 		
 		return result;
+	}
+	
+	private static class DegradationResult {
+		double oldProfilePercentage, newProfilePercentage;
+	}
+	
+	/**
+	 * Returns the % of degradation of a new profile, compared to an old profile
+	 * @param rootOfOldProfile
+	 * @param rootOfNewProfile
+	 * @return degradation
+	 */
+	public static double getDegradationOfProfile(WebState rootOfOldProfile, WebState rootOfNewProfile) {
+		DegradationResult result = new DegradationResult();
+		for(WebState child : rootOfOldProfile.getChildren()) {
+			if(child != null)
+				degradationHelper(child, rootOfOldProfile, rootOfNewProfile, result);
+		}
+		return 1 - (result.newProfilePercentage/result.oldProfilePercentage);
+	}
+	
+	private static void degradationHelper(WebState currentState, WebState rootOfOldProfile,
+			WebState rootOfNewProfile, DegradationResult result) {
+		List<List<WebFlow>> webFlowVectors = WebStateUtils.getWebFlowVectorSequenceForState(currentState);
+		
+		List<WebState> statesFromOldVectors = WebStateUtils.getStatesFromWebFlowVectors(webFlowVectors, rootOfOldProfile);
+		List<WebState> statesFromNewVectors = WebStateUtils.getStatesFromWebFlowVectors(webFlowVectors, rootOfNewProfile);
+		
+		result.oldProfilePercentage += 1.0/statesFromOldVectors.size();; 
+		if(statesFromOldVectors.equals(statesFromNewVectors)) {
+			// Since the state haven't changed, the probability of finding the current state 
+			// is exactly the same as before: 1/sizeof(possible states from web-flow vectors)
+			result.newProfilePercentage = 1.0/statesFromOldVectors.size();
+		} else if(!statesFromNewVectors.contains(currentState)) {
+			// The current state does no longer have the same web-flow vector sequence
+			// in the new profile => 0% chance of finding it.
+			result.newProfilePercentage += 0;
+		} else if(statesFromOldVectors.size() <  statesFromNewVectors.size()) {
+			// The resulting state set has increased -> meaning that by using
+			// the old result set we would give a higher probability of finding this
+			// state, while giving 0 probability to find the new states
+			// E.g. Old state	New State	
+			// 		'aa'		'aa'		result => 0.33
+			//		'ab'		'ab'		result => 0.33
+			//					'ac'
+			// Total result of old state = 1. Total result of new state = 0.66,
+			// meaning that the new state had degraded with 33%. I.e. using the old
+			// profile will lead to 33% false inferences -> saying that we will never get
+			// 'ac', while in reality, we will in 30% of the cases.
+			result.newProfilePercentage += 1.0/statesFromNewVectors.size();
+		} else if(statesFromOldVectors.size() >  statesFromNewVectors.size()) {
+			// The resulting state set has decreased -> meaning that by using 
+			// the old result set we would give a lower probability if finding this 
+			// state than the actual
+			// E.g. Old state	New State	
+			// 		'aa'		'aa'		result => 0.33
+			//		'ab'		'ab'		result => 0.33
+			//		'ac'					result => 0
+			// Total result of old state = 1. Total result of new state = 0.66,
+			// meaning that the new state had degraded with 33%. I.e. using the old
+			// profile will lead to 33% false positives - saying that we get 'ac' in
+			// 33% of the cases, while in reality we cannot get 'ac'
+			result.newProfilePercentage += 1.0/statesFromOldVectors.size();
+		}
+		
+		
+		for(WebState child : currentState.getChildren()) {
+			if(child != null)
+				degradationHelper(child, rootOfOldProfile, rootOfNewProfile, result);
+		}
 	}
 	
 }
