@@ -11,14 +11,14 @@ import org.pcap4j.core.PcapNetworkInterface;
 
 public class ChunkedSnifferRunner implements Runnable {
 	private final static int EMPTY_HTTP_PACKET_SIZE = 37;
-	
-	
+
 	private PcapNetworkInterface nif;
 	private List<String> ipAddressFiters;
 	private int sourcePortFilter;
 	
-	private Map<Integer, PortListenerAttributes> portMappings = new HashMap<Integer, PortListenerAttributes>();
-	
+	private Map<Integer, PortPacketsCollection> portMappings = new HashMap<Integer, PortPacketsCollection>();
+	private List<AutoCompletePacketsReceivedListener> listeners = 
+			new ArrayList<ChunkedSnifferRunner.AutoCompletePacketsReceivedListener>();
 	private Sniffer sniffer;
 	
 	public ChunkedSnifferRunner(PcapNetworkInterface nif, List<String> filterBySourceIPs, int sourcePortFilter) {
@@ -43,12 +43,12 @@ public class ChunkedSnifferRunner implements Runnable {
 		public void onDataPackageReceived(int length, String source,
 				String destination, int sourcePort, int destinationPort, long timeStamp) {
 			//System.out.println("length: " + length + " port: " + destinationPort);
-			PortListenerAttributes portAttribute = portMappings.get(destinationPort);
+			PortPacketsCollection portAttribute = portMappings.get(destinationPort);
 			if(portAttribute == null) {
-				portAttribute = new PortListenerAttributes();
+				portAttribute = new PortPacketsCollection();
 				portMappings.put(destinationPort, portAttribute);
 			}
-			
+
 			if(!portAttribute.hasReceivedEmptyHTTPPacket && length != EMPTY_HTTP_PACKET_SIZE) {
 				//System.out.println("Received data. Length: " + length + ". From: " + source);
 				portAttribute.packetSizes.add(length);
@@ -57,13 +57,15 @@ public class ChunkedSnifferRunner implements Runnable {
 					portAttribute.hasReceivedEmptyHTTPPacket = true;
 					portAttribute.lock.notify();
 				}
+				for(AutoCompletePacketsReceivedListener l : listeners) {
+					l.onAutoCompletePacketsReceived(destinationPort, portAttribute.packetSizes);
+				}
 			}
 		}
 	};
-
 	
 	public synchronized List<Integer> getCurrentPacketsSizes(int destinationPort) {
-		PortListenerAttributes portAttribute = portMappings.get(destinationPort);
+		PortPacketsCollection portAttribute = portMappings.get(destinationPort);
 		if(portAttribute == null) {
 			return null;
 		}
@@ -71,9 +73,9 @@ public class ChunkedSnifferRunner implements Runnable {
 	}
 	
 	public boolean waitForPacketsToBeReceived(int destinationPort, long timeoutMilliseconds) {
-		PortListenerAttributes portAttribute = portMappings.get(destinationPort);
+		PortPacketsCollection portAttribute = portMappings.get(destinationPort);
 		if(portAttribute == null) {
-			portAttribute = new PortListenerAttributes();
+			portAttribute = new PortPacketsCollection();
 			portMappings.put(destinationPort, portAttribute);
 		}
 		
@@ -93,9 +95,9 @@ public class ChunkedSnifferRunner implements Runnable {
 	}
 	
 	public void startNextIteration(int destinationPort) {
-		PortListenerAttributes portAttribute = portMappings.get(destinationPort);
+		PortPacketsCollection portAttribute = portMappings.get(destinationPort);
 		if(portAttribute == null) {
-			portAttribute = new PortListenerAttributes();
+			portAttribute = new PortPacketsCollection();
 			portMappings.put(destinationPort, portAttribute);
 		}
 		
@@ -105,7 +107,7 @@ public class ChunkedSnifferRunner implements Runnable {
 		}
 	}
 	
-	public void destroy() {
+	public void destroy() throws NotOpenException {
 		sniffer.destroy();
 	}
 	
@@ -113,7 +115,15 @@ public class ChunkedSnifferRunner implements Runnable {
 		return sniffer;
 	}
 	
-	private static class PortListenerAttributes {
+	public void registerAutoCompletePacketsReceivedListener(AutoCompletePacketsReceivedListener listener) {
+		listeners.add(listener);
+	}
+	
+	public interface AutoCompletePacketsReceivedListener {
+		void onAutoCompletePacketsReceived(int port, List<Integer> packetSizes);
+	}
+	
+	private static class PortPacketsCollection {
 		private List<Integer> packetSizes = new ArrayList<Integer>();
 		private Object lock = new Object();
 		private boolean hasReceivedEmptyHTTPPacket = false;

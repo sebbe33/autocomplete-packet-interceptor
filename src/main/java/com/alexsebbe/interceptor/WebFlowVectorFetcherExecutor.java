@@ -20,6 +20,8 @@ public class WebFlowVectorFetcherExecutor {
 	private Object portListenerLock = new Object();
 	private long lastActivity = 0;
 	private int currentPort = 0;
+	private Set<Integer> portsUsed = new HashSet<Integer>();
+	
 	private OnDataPackageReceivedListener portListener = new OnDataPackageReceivedListener() {
 
 		public void onDataPackageReceived(int length, String IPSource,
@@ -58,6 +60,7 @@ public class WebFlowVectorFetcherExecutor {
 			}
 			System.out.println("Current port: " + currentPort);
 			emulator.setDestinationPort(currentPort);
+			portsUsed.add(currentPort);
 			currentPort = 0;
 			WebFlowVectorFetcher fetcher = new WebFlowVectorFetcher(this, emulator, snifferRunner);
 			fetcherQueue.add(fetcher);
@@ -77,6 +80,10 @@ public class WebFlowVectorFetcherExecutor {
 		fetcherQueue.add(fetcher);
 	}
 	
+	/**
+	 * Destroy and release all resources occupied by this executor.
+	 * @throws IOException
+	 */
 	public void destroy() throws IOException {
 		isActive = false;
 		for(WebFlowVectorFetcher fetcher : allFetchers) {
@@ -84,8 +91,20 @@ public class WebFlowVectorFetcherExecutor {
 		}
 	}
 	
+	/**
+	 * Returns the timestamp of the last activity of the executor
+	 * @return UNIX timestamp
+	 */
 	public long getLastActivity() {
 		return lastActivity;
+	}
+	
+	/**
+	 * Returns all port numbers (TCP) used by the executor
+	 * @return
+	 */
+	public Set<Integer> getPortsUsed() {
+		return portsUsed;
 	}
 	
 	private static class FetcherTask {

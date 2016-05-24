@@ -91,7 +91,7 @@ public class Sniffer {
 		try {
 			handle.loop(INFINITY, listener);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -99,7 +99,8 @@ public class Sniffer {
 		return handle.getStats();
 	}
 	
-	public void destroy() {
+	public void destroy() throws NotOpenException {
+		handle.breakLoop();
 		handle.close();
 	}
 	

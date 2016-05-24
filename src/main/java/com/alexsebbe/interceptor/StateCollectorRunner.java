@@ -5,6 +5,7 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 
+import org.pcap4j.core.NotOpenException;
 import org.pcap4j.core.PcapNetworkInterface;
 import org.pcap4j.util.NifSelector;
 
@@ -65,6 +66,8 @@ public class StateCollectorRunner {
 		} catch (KeyStoreException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (NotOpenException e) {
 			e.printStackTrace();
 		}
 	}
