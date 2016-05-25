@@ -2,7 +2,9 @@ package com.alexsebbe.interceptor;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.alexsebbe.interceptor.WebFlow.Direction;
 
@@ -144,26 +146,29 @@ public class StatisticsUtil {
 			if(child != null)
 				degradationHelper(child, rootOfOldProfile, rootOfNewProfile, result);
 		}
+		System.out.println(result.newProfilePercentage +  " - " + result.oldProfilePercentage);
 		return 1 - (result.newProfilePercentage/result.oldProfilePercentage);
 	}
 	
 	private static void degradationHelper(WebState currentState, WebState rootOfOldProfile,
 			WebState rootOfNewProfile, DegradationResult result) {
 		List<List<WebFlow>> webFlowVectors = WebStateUtils.getWebFlowVectorSequenceForState(currentState);
+
+		// Convert to set, in order to not regard the order in the equals method
+		Set<WebState> oldStatesSet = new HashSet<WebState>(WebStateUtils.getStatesFromWebFlowVectors(webFlowVectors, rootOfOldProfile));
+		Set<WebState> newStatesSet = new HashSet<WebState>(WebStateUtils.getStatesFromWebFlowVectors(webFlowVectors, rootOfNewProfile));
 		
-		List<WebState> statesFromOldVectors = WebStateUtils.getStatesFromWebFlowVectors(webFlowVectors, rootOfOldProfile);
-		List<WebState> statesFromNewVectors = WebStateUtils.getStatesFromWebFlowVectors(webFlowVectors, rootOfNewProfile);
+		result.oldProfilePercentage += 1.0/oldStatesSet.size();
 		
-		result.oldProfilePercentage += 1.0/statesFromOldVectors.size();; 
-		if(statesFromOldVectors.equals(statesFromNewVectors)) {
+		if(oldStatesSet.equals(newStatesSet)) {
 			// Since the state haven't changed, the probability of finding the current state 
 			// is exactly the same as before: 1/sizeof(possible states from web-flow vectors)
-			result.newProfilePercentage = 1.0/statesFromOldVectors.size();
-		} else if(!statesFromNewVectors.contains(currentState)) {
+			result.newProfilePercentage += 1.0/oldStatesSet.size();
+		} else if(!newStatesSet.contains(currentState)) {
 			// The current state does no longer have the same web-flow vector sequence
 			// in the new profile => 0% chance of finding it.
 			result.newProfilePercentage += 0;
-		} else if(statesFromOldVectors.size() <  statesFromNewVectors.size()) {
+		} else if(oldStatesSet.size() <  newStatesSet.size()) {
 			// The resulting state set has increased -> meaning that by using
 			// the old result set we would give a higher probability of finding this
 			// state, while giving 0 probability to find the new states
@@ -175,20 +180,30 @@ public class StatisticsUtil {
 			// meaning that the new state had degraded with 33%. I.e. using the old
 			// profile will lead to 33% false inferences -> saying that we will never get
 			// 'ac', while in reality, we will in 30% of the cases.
-			result.newProfilePercentage += 1.0/statesFromNewVectors.size();
-		} else if(statesFromOldVectors.size() >  statesFromNewVectors.size()) {
+			result.newProfilePercentage += 1.0/newStatesSet.size();
+		} else if(oldStatesSet.size() >  newStatesSet.size()) {
 			// The resulting state set has decreased -> meaning that by using 
 			// the old result set we would give a lower probability if finding this 
 			// state than the actual
 			// E.g. Old state	New State	
 			// 		'aa'		'aa'		result => 0.33
-			//		'ab'		'ab'		result => 0.33
-			//		'ac'					result => 0
-			// Total result of old state = 1. Total result of new state = 0.66,
+			//		'ab'		'ef'		result => 0		(will be caught in !newStatesSet.contains(currentState))
+			//		'ac'					result => 0		(will be caught in !newStatesSet.contains(currentState))
+			// Total result of old state = 1. Total result of new state = 0,
 			// meaning that the new state had degraded with 33%. I.e. using the old
 			// profile will lead to 33% false positives - saying that we get 'ac' in
 			// 33% of the cases, while in reality we cannot get 'ac'
-			result.newProfilePercentage += 1.0/statesFromOldVectors.size();
+			result.newProfilePercentage += 1.0/oldStatesSet.size();
+			
+		} else {
+			// The resulting state set has changed but not decreased in size -> meaning that by using 
+			// the old result set we would get 'false' positives, i.e. say that we have found something,
+			// while in reality, it's something completely different
+			// E.g. Old state	New State	
+			// 		'aa'		'aa'		result => 0.33
+			//		'ab'		'eb'		result => 0 	(will be caught in !newStatesSet.contains(currentState))
+			//		'ac'		'ep'		result => 0		(will be caught in !newStatesSet.contains(currentState))
+			result.newProfilePercentage += 1.0/oldStatesSet.size();
 		}
 		
 		

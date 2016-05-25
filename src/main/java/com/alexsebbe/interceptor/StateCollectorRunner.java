@@ -11,7 +11,7 @@ import org.pcap4j.core.PcapNetworkInterface;
 import org.pcap4j.util.NifSelector;
 
 public class StateCollectorRunner {
-	private static final int NO_ACTIVITY_TIMEOUT = 30*1000;
+	private static final int NO_ACTIVITY_TIMEOUT = 6*1000;
 	private static final int ACTIVITY_POLL_INTERVAL = 3*1000;
 	public static void main(String[] args) {
 		PcapNetworkInterface nif;
@@ -34,8 +34,8 @@ public class StateCollectorRunner {
 		System.out.println("Initializing setup....");
 		
 		try {
-			int threadCount = 60;
-			int depth = 4;
+			int threadCount = 3;
+			int depth = 1;
 			WebFlowVectorFetcherExecutor executor = new WebFlowVectorFetcherExecutor(threadCount, WebRequestEmulatorFactoryImpl.INSTANCE, AmazonUKProperties.INSTANCE, snifferRunner);
 			StateCollector stateCollector = new StateCollector("abcdefghijklmnopqrstuvwxyz", depth, AmazonUKProperties.INSTANCE, threadCount, snifferRunner, executor);
 			System.out.println("Beginning to collect suggestions... This might take a long time");

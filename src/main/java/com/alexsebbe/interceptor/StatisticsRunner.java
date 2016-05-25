@@ -11,7 +11,7 @@ public class StatisticsRunner {
 	public static void main(String[] args) {
 		WebState rootState = null;
 		try {
-			rootState = JSONSerializer.deSerializeWebStates("mappings/amazon_uk_1_characters_60_threads.json");
+			rootState = JSONSerializer.deSerializeWebStates("mappings/amazon_uk_2_characters_60_threads.json");
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -34,6 +34,19 @@ public class StatisticsRunner {
 		System.out.println("Amount of valid input: " + numValidInputs + " out of " + numTotalPossible + " => " + ((numValidInputs/(double)numTotalPossible)*100) + "%");
 		System.out.println("Amount of distinguishable input: " + numOfDistInputs + " out of " + numTotalPossible + " => " + (numOfDistInputs/(double)numTotalPossible)*100 + "%");
 		System.out.println("Average prediction rate for valid inputs: " + (rate*100) + "%");
+		
+		WebState rootOfOldProfile = null, rootOfNewProfile = null;
+		try {
+			rootOfOldProfile = JSONSerializer.deSerializeWebStates("mappings/4/4_0523_1126.json");
+			rootOfNewProfile = JSONSerializer.deSerializeWebStates("mappings/4/4_2505_0135.json");
+			System.out.println("Degradation of new profile: " + StatisticsUtil.getDegradationOfProfile(rootOfOldProfile, rootOfNewProfile));
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

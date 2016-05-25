@@ -77,4 +77,101 @@ public class WebState {
 		children.add(child);
 	}
 
+	@Override
+	public String toString() {
+		return "WebState [name: " + getName() + ", input: " + getInput() + ", " + getWebFlowVector() + "]"; 
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((input == null) ? 0 : input.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		WebState other = (WebState) obj;
+		if (input == null) {
+			if (other.input != null)
+				return false;
+		} else if (!input.equals(other.input))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (webFlowVector == null) {
+			if (other.webFlowVector != null)
+				return false;
+		} else if (!webFlowVector.equals(other.webFlowVector))
+			return false;
+		return true;
+	}
+	
+	
+	
+	/*
+	@Override
+	public boolean equals(Object other) {
+		System.out.println("Entered equals");
+		if(other == null || other.getClass() != getClass()) {
+			return false;
+		}
+		
+		WebState otherWebState = (WebState) other;
+		boolean equality = true;
+
+		
+		if(getParent() == null) {
+			if(otherWebState.getParent() != null) {
+				equality = false;
+			}
+		} else {
+			if(!getParent().equals(otherWebState.getParent())) {
+				equality = false;
+			}
+		}
+		
+		if(getInput() == null) {
+			if(otherWebState.getInput() != null) {
+				equality = false;
+			}
+		} else {
+			if(!getInput().equals(otherWebState.getInput())) {
+				equality = false;
+			}
+		}
+		
+		if(getName() == null) {
+			if(otherWebState.getName() != null) {
+				equality = false;
+			}
+		} else {
+			if(!getName().equals(otherWebState.getName())) {
+				equality = false;
+			}
+		}
+		
+		if(getWebFlowVector() == null) {
+			if(otherWebState.getWebFlowVector() != null) {
+				equality = false;
+			}
+		} else {
+			if(!getWebFlowVector().equals(otherWebState.getWebFlowVector())) {
+				equality = false;
+			}
+		}
+		System.out.println("Equality: " + equality);
+		return 	equality;/*&& getChildren().equals(otherWebState.getChildren()) ;
+	}*/
 }
