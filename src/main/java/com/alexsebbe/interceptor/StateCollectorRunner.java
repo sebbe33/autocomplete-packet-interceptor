@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 
 import org.pcap4j.core.NotOpenException;
 import org.pcap4j.core.PcapNetworkInterface;
@@ -55,7 +56,9 @@ public class StateCollectorRunner {
 			System.out.println("Finished collection suggestions. "
         			+ "Time elapsed" + (lastTimestamp - time)/1000.0 + " seconds "
 					+ "("+(lastTimestamp - time)/(1000.0*60)+" min)");
-			JSONSerializer.serializeWebStates(rootState, "testing.json");
+			Calendar c = Calendar.getInstance();
+			JSONSerializer.serializeWebStates(rootState, "mappings/" + depth+"_" + String.format("%02d", c.get(Calendar.DAY_OF_MONTH)) + "" + String.format("%02d", c.get(Calendar.MONTH)) +  
+					"_" + String.format("%02d", c.get(Calendar.HOUR)) + "" + String.format("%02d", c.get(Calendar.MINUTE)) + ".json");
 			executor.destroy();
 			snifferRunner.destroy();
 			
