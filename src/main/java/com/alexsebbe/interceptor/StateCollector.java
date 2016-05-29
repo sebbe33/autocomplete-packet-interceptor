@@ -6,6 +6,14 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import com.alexsebbe.ChunkedSnifferRunner;
+import com.alexsebbe.WebFlow;
+import com.alexsebbe.WebFlowVectorFetcher;
+import com.alexsebbe.WebFlowVectorFetcherExecutor;
+import com.alexsebbe.WebFlowVectorReceivedListener;
+import com.alexsebbe.WebSiteProperties;
+import com.alexsebbe.WebState;
+
 public class StateCollector {	
 	private String alternativesString;
 	private int maxDepth;

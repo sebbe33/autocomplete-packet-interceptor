@@ -10,9 +10,15 @@ import org.pcap4j.core.NotOpenException;
 import org.pcap4j.core.PcapNetworkInterface;
 import org.pcap4j.util.NifSelector;
 
+import com.alexsebbe.ChunkedSnifferRunner;
+import com.alexsebbe.JSONSerializer;
+import com.alexsebbe.WebFlowVectorFetcherExecutor;
+import com.alexsebbe.WebRequestEmulatorFactoryImpl;
+import com.alexsebbe.WebState;
+
 public class StateCollectorRunner {
-	private static final int NO_ACTIVITY_TIMEOUT = 6*1000;
-	private static final int ACTIVITY_POLL_INTERVAL = 3*1000;
+	private static final int NO_ACTIVITY_TIMEOUT = 60*1000;
+	private static final int ACTIVITY_POLL_INTERVAL = 59*1000;
 	public static void main(String[] args) {
 		PcapNetworkInterface nif;
 		try {
@@ -34,8 +40,8 @@ public class StateCollectorRunner {
 		System.out.println("Initializing setup....");
 		
 		try {
-			int threadCount = 3;
-			int depth = 1;
+			int threadCount = 60;
+			int depth = 5;
 			WebFlowVectorFetcherExecutor executor = new WebFlowVectorFetcherExecutor(threadCount, WebRequestEmulatorFactoryImpl.INSTANCE, AmazonUKProperties.INSTANCE, snifferRunner);
 			StateCollector stateCollector = new StateCollector("abcdefghijklmnopqrstuvwxyz", depth, AmazonUKProperties.INSTANCE, threadCount, snifferRunner, executor);
 			System.out.println("Beginning to collect suggestions... This might take a long time");
@@ -58,7 +64,7 @@ public class StateCollectorRunner {
 					+ "("+(lastTimestamp - time)/(1000.0*60)+" min)");
 			Calendar c = Calendar.getInstance();
 			JSONSerializer.serializeWebStates(rootState, "mappings/" + depth+"_" + String.format("%02d", c.get(Calendar.DAY_OF_MONTH)) + "" + String.format("%02d", c.get(Calendar.MONTH)) +  
-					"_" + String.format("%02d", c.get(Calendar.HOUR)) + "" + String.format("%02d", c.get(Calendar.MINUTE)) + ".json");
+					"_" + String.format("%02d", c.get(Calendar.HOUR_OF_DAY)) + "" + String.format("%02d", c.get(Calendar.MINUTE)) + ".json");
 			executor.destroy();
 			snifferRunner.destroy();
 			

@@ -7,16 +7,21 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Scanner;
 
 import org.pcap4j.core.NotOpenException;
 import org.pcap4j.core.PcapNetworkInterface;
 import org.pcap4j.util.NifSelector;
 
+import com.alexsebbe.ChunkedSnifferRunner;
+import com.alexsebbe.WebFlowVectorFetcherExecutor;
+import com.alexsebbe.WebRequestEmulatorFactoryImpl;
+import com.alexsebbe.WebState;
 import com.alexsebbe.interceptor.OnTheFlyInterceptor.ResultReceivedListener;
 
 public class OnTheFlyInterceptorRunner {
 	private static final String ALTERNATIVES_STRING = "abcdefghijklmnopqrstuvwxyz";
+	private static final int DEFAULT_NR_THREADS = 60;
+	
 	public static void main(String[] args) {
 		System.out.println("Welcome to the autcomplete on-the-fly interceptor");
 		PcapNetworkInterface nif;
@@ -38,7 +43,7 @@ public class OnTheFlyInterceptorRunner {
 		Thread snifferThread = new Thread(snifferRunner);
 		snifferThread.start();
 		
-		int threadCount = 10;
+		int threadCount = DEFAULT_NR_THREADS;
 		try {
 			WebFlowVectorFetcherExecutor executor = new WebFlowVectorFetcherExecutor(threadCount, WebRequestEmulatorFactoryImpl.INSTANCE, AmazonUKProperties.INSTANCE, snifferRunner);
 			OnTheFlyInterceptor interceptor = new OnTheFlyInterceptor(executor, snifferRunner,ALTERNATIVES_STRING, AmazonUKProperties.INSTANCE, listener);

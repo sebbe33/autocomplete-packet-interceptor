@@ -1,4 +1,4 @@
-package com.alexsebbe.interceptor;
+package com.alexsebbe.statistics;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,10 +6,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.alexsebbe.interceptor.WebFlow.Direction;
+import com.alexsebbe.WebFlow;
+import com.alexsebbe.WebState;
+import com.alexsebbe.WebStateUtils;
+import com.alexsebbe.WebFlow.Direction;
 
 
-public class StatisticsUtil {
+public class Statistics {
 
 	/**
 	 * Returns the amount of valid inputs
@@ -68,7 +71,6 @@ public class StatisticsUtil {
 		}
 		int min = Collections.min(allPackets);
 		int max = Collections.max(allPackets);
-		
 		return allPackets.size()/(double)(max - min);
 	}
 	
@@ -146,7 +148,7 @@ public class StatisticsUtil {
 			if(child != null)
 				degradationHelper(child, rootOfOldProfile, rootOfNewProfile, result);
 		}
-		System.out.println(result.newProfilePercentage +  " - " + result.oldProfilePercentage);
+
 		return 1 - (result.newProfilePercentage/result.oldProfilePercentage);
 	}
 	

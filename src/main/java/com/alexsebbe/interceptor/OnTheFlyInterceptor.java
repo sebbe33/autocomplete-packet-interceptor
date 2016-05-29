@@ -8,8 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.alexsebbe.interceptor.ChunkedSnifferRunner.AutoCompletePacketsReceivedListener;
-import com.alexsebbe.interceptor.WebFlow.Direction;
+import com.alexsebbe.ChunkedSnifferRunner;
+import com.alexsebbe.WebFlow;
+import com.alexsebbe.WebFlowVectorFetcher;
+import com.alexsebbe.WebFlowVectorFetcherExecutor;
+import com.alexsebbe.WebFlowVectorReceivedListener;
+import com.alexsebbe.WebSiteProperties;
+import com.alexsebbe.WebState;
+import com.alexsebbe.ChunkedSnifferRunner.AutoCompletePacketsReceivedListener;
+import com.alexsebbe.WebFlow.Direction;
 
 public class OnTheFlyInterceptor implements AutoCompletePacketsReceivedListener {
 	private WebFlowVectorFetcherExecutor executor;

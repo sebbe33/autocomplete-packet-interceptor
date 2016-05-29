@@ -1,4 +1,4 @@
-package com.alexsebbe.interceptor;
+package com.alexsebbe;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,7 @@ public class JSONSerializer {
 	
 	public static void serializeWebStates(WebState rootState, String fileName) throws JsonGenerationException, JsonMappingException, IOException {
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-		mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		//mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		mapper.writeValue(new File(fileName), rootState);
 		
 		System.out.println("Done serializing");

@@ -1,4 +1,4 @@
-package com.alexsebbe.interceptor;
+package com.alexsebbe;
 
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;

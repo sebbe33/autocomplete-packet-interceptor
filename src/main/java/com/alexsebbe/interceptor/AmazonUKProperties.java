@@ -3,6 +3,9 @@ package com.alexsebbe.interceptor;
 import java.util.Arrays;
 import java.util.List;
 
+import com.alexsebbe.WebSiteProperties;
+import com.alexsebbe.WebSiteProperties.Range;
+
 public enum AmazonUKProperties implements WebSiteProperties {
 	INSTANCE;
 	

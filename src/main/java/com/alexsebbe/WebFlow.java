@@ -1,4 +1,4 @@
-package com.alexsebbe.interceptor;
+package com.alexsebbe;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)

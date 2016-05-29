@@ -1,10 +1,10 @@
-package com.alexsebbe.interceptor;
+package com.alexsebbe;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alexsebbe.interceptor.WebFlow.Direction;
+import com.alexsebbe.WebFlow.Direction;
 
 public class WebFlowVectorFetcher extends Thread {
 	private final static int PACKET_RECIEVED_TIMEOUT = 10000;
@@ -55,7 +55,7 @@ public class WebFlowVectorFetcher extends Thread {
 	        		httpResponse = emulator.doSearch(searchString, webSiteProperties);
 	        	}
 	        	if(timesRun % 500 == 0) {
-	        		System.out.println(httpResponse);
+	        		//System.out.println(httpResponse);
 	        	}
 	        	
 	        	List<Integer> packetLengths = chukedSnifferRunner.getCurrentPacketsSizes(destinationPort);

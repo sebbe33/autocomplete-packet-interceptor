@@ -1,4 +1,4 @@
-package com.alexsebbe.interceptor;
+package com.alexsebbe;
 
 import java.io.IOException;
 import java.security.KeyManagementException;
@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import com.alexsebbe.interceptor.Sniffer.OnDataPackageReceivedListener;
+import com.alexsebbe.Sniffer.OnDataPackageReceivedListener;
 
 public class WebFlowVectorFetcherExecutor {
 	private LinkedBlockingQueue<WebFlowVectorFetcher> fetcherQueue;
