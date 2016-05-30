@@ -1,8 +1,11 @@
 package com.alexsebbe.interceptor;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
+import org.pcap4j.core.NotOpenException;
 import org.pcap4j.core.PcapNetworkInterface;
 import org.pcap4j.util.NifSelector;
 
@@ -57,6 +60,28 @@ public class PrecomputedProfileInterceptorRunner {
 		snifferThread.start();
 		
 		PrecomputedProfileInterceptor interceptor = new PrecomputedProfileInterceptor(snifferRunner, profile, listener);
+		System.out.println("Press q+enter to quit. Press r+enter to reset and intercept new requests");
+		System.out.println("I'm reset - ready to intercept new requests");
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String input;
+		try {
+			while((input=br.readLine())!=null){
+				System.out.println(input);
+				if(input.equals("r")) {
+					interceptor.reset();
+					System.out.println("I'm reset - ready to intercept new requests");
+				} else if(input.equals("q")) {
+					System.out.println("Shutting down...");
+					snifferRunner.destroy();
+					System.exit(0);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (NotOpenException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private static ResultReceivedListener listener = new ResultReceivedListener() {  

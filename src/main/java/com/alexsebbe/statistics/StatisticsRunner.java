@@ -11,10 +11,16 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 public class StatisticsRunner {
 
 	public static void main(String[] args) {
+		if(args.length != 1) {
+			System.out.println("Usage: StatisticsRunner filePathToProfile");
+			System.exit(-1);
+		}
+		
 		System.out.println("Loading file...");
 		WebState rootState = null;
+		
 		try {
-			rootState = JSONSerializer.deSerializeWebStates("mappings/5/5_2704_0007.json");
+			rootState = JSONSerializer.deSerializeWebStates(args[0]);
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

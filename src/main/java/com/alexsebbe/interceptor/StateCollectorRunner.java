@@ -18,8 +18,15 @@ import com.alexsebbe.WebState;
 
 public class StateCollectorRunner {
 	private static final int NO_ACTIVITY_TIMEOUT = 60*1000;
-	private static final int ACTIVITY_POLL_INTERVAL = 59*1000;
+	private static final int ACTIVITY_POLL_INTERVAL = 30*1000;
 	public static void main(String[] args) {
+		if(args.length != 2) {
+			System.out.println("Usage: StateCollectorRunner depth thread_count");
+		}
+		
+		int depth = Integer.parseInt(args[0]);
+		int threadCount = Integer.parseInt(args[1]);
+		
 		PcapNetworkInterface nif;
 		try {
 			nif = new NifSelector().selectNetworkInterface();
@@ -40,8 +47,6 @@ public class StateCollectorRunner {
 		System.out.println("Initializing setup....");
 		
 		try {
-			int threadCount = 60;
-			int depth = 5;
 			WebFlowVectorFetcherExecutor executor = new WebFlowVectorFetcherExecutor(threadCount, WebRequestEmulatorFactoryImpl.INSTANCE, AmazonUKProperties.INSTANCE, snifferRunner);
 			StateCollector stateCollector = new StateCollector("abcdefghijklmnopqrstuvwxyz", depth, AmazonUKProperties.INSTANCE, threadCount, snifferRunner, executor);
 			System.out.println("Beginning to collect suggestions... This might take a long time");

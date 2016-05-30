@@ -28,22 +28,21 @@ public class PrecomputedProfileInterceptor implements AutoCompletePacketsReceive
 
 	public void onAutoCompletePacketsReceived(int port,
 			List<Integer> packetSizes) {
-		
 		List<List<WebFlow>> portWebFlow = portsToIntercept.get(port);
 		if(portWebFlow == null) {
-			portsToIntercept.put(port, new ArrayList<List<WebFlow>>());
+			portWebFlow = new ArrayList<List<WebFlow>>();
+			portsToIntercept.put(port, portWebFlow);
 		} 
-		
+
 		// Convert incoming packets to web-flow vector and add them to the sequence of web flow vectors
 		portWebFlow.add(convertIncomingPacketSizeToWebFlowVector(packetSizes));
 
 		List<WebState> possibleWebStates = WebStateUtils.getStatesFromWebFlowVectors(portWebFlow, rootStateOfProfile);
 		resultReceivedListener.onResultRecieved(portWebFlow.size(), possibleWebStates);
 		// TODO : if it is not an empty packet
-
 		
 		// Start new iteration on sniffer runner in order to be able to receive more packets
-		System.out.println("Intercepted packets on port " + port + ". Web flow vector: " + portWebFlow + ". Calculating possible states...");
+		System.out.println("Intercepted packets on port " + port + ". Web-flow vector: " + portWebFlow + ". Calculating possible states...");
 		snifferRunner.startNextIteration(port);
 	}
 	
@@ -56,7 +55,7 @@ public class PrecomputedProfileInterceptor implements AutoCompletePacketsReceive
 		// Clear every packet but the last, since every search query we've observed is sent in only one packet
 		// The other packets can be images or other metadata sent by amazon's autocomplete server
 		webFlowVector.add(new WebFlow(Direction.INGOING, packetLengths.get(packetLengths.size()-1)));
-		
+		System.out.println("hej" + webFlowVector);
 		return webFlowVector;
 	}
 	

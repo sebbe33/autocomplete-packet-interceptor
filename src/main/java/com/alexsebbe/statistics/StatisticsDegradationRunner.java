@@ -1,8 +1,6 @@
 package com.alexsebbe.statistics;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.alexsebbe.JSONSerializer;
 import com.alexsebbe.WebState;
@@ -18,7 +16,7 @@ public class StatisticsDegradationRunner {
 	public static void main(String[] args) {
 		String[] files = args;
 		if(files.length == 0) {
-			files = new String[] {/*"mappings/4/4_1805.json",*/
+			files = new String[] {
 					"mappings/4/4_0523_1126.json", 
 					"mappings/4/4_0524_1730.json", 
 					"mappings/4/4_0524_1830.json",
