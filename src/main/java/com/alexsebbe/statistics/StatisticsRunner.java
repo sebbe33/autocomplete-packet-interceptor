@@ -11,10 +11,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 public class StatisticsRunner {
 
 	public static void main(String[] args) {
-		if(args.length != 1) {
-			System.out.println("Usage: StatisticsRunner filePathToProfile");
+		if(args.length != 2) {
+			System.out.println("Usage: StatisticsRunner file_path_to_profile depth_of_profile");
 			System.exit(-1);
 		}
+		int depth = Integer.parseInt(args[1]);
 		
 		System.out.println("Loading file...");
 		WebState rootState = null;
@@ -35,7 +36,7 @@ public class StatisticsRunner {
 		
 		System.out.println("Starting calculations...");
 		int numValidInputs = Statistics.getAmountOfValidInput(rootState);
-		long numTotalPossible = Statistics.getTotalAmountOfPossibleCombinations("abcdefghijklmnopqrstuvwxyz",4);
+		long numTotalPossible = Statistics.getTotalAmountOfPossibleCombinations("abcdefghijklmnopqrstuvwxyz",depth);
 		int numOfDistInputs = Statistics.getAmountOfDistinguishableInput(rootState);
 		double rate = Statistics.getAveragePredictionRate(rootState);
 		
