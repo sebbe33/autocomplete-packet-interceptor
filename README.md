@@ -1,7 +1,7 @@
 # autocomplete-packet-interceptor
-This repository is intended to practically demonstrate vulnerabilities in Auto-complete search functionality on website (suggestion boxes in search fields).
-Even though traffic is encrypted, search queries can still be retrieved - the code in this project demonstrates that search queries made on [Amazon.co.uk](https://www.amazon.co.uk/) can easily be decrypted through a side-channel attack. 
-This project is based on the work of [Shuo Chen, Rui Wang, XiaoFeng Wang, Kehuan Zhang] (http://research.microsoft.com/pubs/119060/WebAppSideChannel-final.pdf) and the implementation uses their terminology. The code is intended as a framework for performing side-channel attacks and decrypting search queries, not just against Amazon, but could be extended to other websites. Furthermore, this project contains tools to evaluate the efficiancy of this methods.
+This repository is intended to practically demonstrate vulnerabilities in Auto-complete search functionality on websites (suggestion boxes in search fields).
+Even though traffic is encrypted, search queries can still be retrieved, and the code in this project demonstrates that search queries made on [Amazon.co.uk](https://www.amazon.co.uk/) can easily be decrypted through a side-channel attack. 
+This project is based on the work of [Shuo Chen, Rui Wang, XiaoFeng Wang, Kehuan Zhang] (http://research.microsoft.com/pubs/119060/WebAppSideChannel-final.pdf) and the implementation uses their terminology. The code is intended as a framework for performing side-channel attacks and decrypting search queries, not just against Amazon, but other websites as well. Furthermore, this project contains tools to evaluate the efficiancy of this methods.
 
 Please note that this is only intended for demonstrational purposes and should not be used in any antagonistic way.
 
