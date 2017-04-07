@@ -5,6 +5,7 @@ This project is based on the work of [Shuo Chen, Rui Wang, XiaoFeng Wang, Kehuan
 
 Please note that this is only intended for demonstrational purposes and should not be used in any antagonistic way.
 
+For the complete details about the work undertaken, please see [the attached report](report.pdf).
 
 ## How to run
 There are two ways to perform a side-channel channel attack. Either by using the on-the-fly interceptor, or the precomputed-profile interceptor. In either case, Maven is required.
